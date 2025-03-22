@@ -3,6 +3,7 @@ import argparse
 import shlex
 from models import Session, Teacher, Group, Student
 
+
 def create(session, model, name):
     cls = {"Teacher": Teacher, "Group": Group, "Student": Student}.get(model)
     if not cls:
@@ -13,6 +14,7 @@ def create(session, model, name):
     session.commit()
     print(f"✅ {model} '{name}' created successfully.")
 
+
 def list_all(session, model):
     cls = {"Teacher": Teacher, "Group": Group, "Student": Student}.get(model)
     if not cls:
@@ -21,6 +23,7 @@ def list_all(session, model):
     objs = session.query(cls).all()
     for obj in objs:
         print(f"{obj.id}: {obj.name}")
+
 
 def update(session, model, obj_id, new_name):
     cls = {"Teacher": Teacher, "Group": Group, "Student": Student}.get(model)
@@ -35,6 +38,7 @@ def update(session, model, obj_id, new_name):
     else:
         print(f"❌ {model} not found.")
 
+
 def remove(session, model, obj_id):
     cls = {"Teacher": Teacher, "Group": Group, "Student": Student}.get(model)
     if not cls:
@@ -48,10 +52,12 @@ def remove(session, model, obj_id):
     else:
         print(f"❌ {model} not found.")
 
+
 def get_arguments():
     parser = argparse.ArgumentParser(description="Manage database records.")
     parser.add_argument("-a", "--action", required=True, help="Action to perform (create, list, update, remove)")
-    parser.add_argument("-m", "--model", required=True, choices=["Teacher", "Group", "Student"], help="Model to act upon")
+    parser.add_argument("-m", "--model", required=True, choices=["Teacher", "Group", "Student"],
+                        help="Model to act upon")
     parser.add_argument("--id", type=int, help="ID of the record to update or delete")
     parser.add_argument("-n", "--name", help="Name for create or update")
     return parser.parse_args()
@@ -91,6 +97,7 @@ def main():
 
         # Reset sys.argv
         sys.argv = [sys.argv[0]]
+
 
 if __name__ == "__main__":
     main()
